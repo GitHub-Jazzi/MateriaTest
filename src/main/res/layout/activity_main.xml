@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--这个框架有两个子布局
+    布局1：主活动的界面
+    布局2：滑动的界面-->
+<android.support.v4.widget.DrawerLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/drawer_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!--android.support.design.widget.CoordinatorLayout使用这个布局，可以
+        监听所有子控件的各种事件，帮助我们做出合理的相应
+        但是snackbar不在这里，怎么会被监听到呢
+        因为snackbar的make()方法中第一个参数View，snackbar基于它触发
+        而我们传入的view是FloatingActionButton本身，属于CoordinatorLayout子控件
+        所以能理所应当被监听到-->
+
+    <android.support.design.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+
+        <android.support.design.widget.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <!--高度设置为actionBar高度
+                背景设置为colorPrimary
+                android:theme设置Toolbar单独的主题
+                app:popupTheme设置弹出的主题
+                layout_scrollFlags表示上滚隐藏下滚显示-->
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="?attr/colorPrimary"
+                android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+                app:layout_scrollFlags="scroll|enterAlways|snap"/>
+
+        </android.support.design.widget.AppBarLayout>
+
+
+        <!--因为SwipeRefreshLayout包含了RecyclerView，所以需要把
+            layout_behavior功能移到SwipeRefreshLayout去-->
+        <android.support.v4.widget.SwipeRefreshLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/swipe_refresh"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+            <!--RecyclerView实现滑动显示
+           layout_behavior定义了一个布局行为，
+           让CoordinatorLayout布局中AppBarLayout优先显示吧-->
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycle_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+        </android.support.v4.widget.SwipeRefreshLayout>
+
+        <!--最后一个属性是设置按钮悬浮的高度-->
+        <android.support.design.widget.FloatingActionButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/fab"
+            android:layout_gravity="bottom|end"
+            android:layout_margin="16dp"
+            android:src="@drawable/ic_done"
+            android:elevation="8dp"/>
+    </android.support.design.widget.CoordinatorLayout>
+
+    <!--layout_gravity根据系统来判断滑动菜单在左边还是右边
+        将滑动窗口头部设置为nav_header
+        将滑动窗口菜单设置为nav_menu-->
+    <android.support.design.widget.NavigationView
+        android:id="@+id/nav_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        app:menu="@menu/nav_menu"
+        app:headerLayout="@layout/nav_header"/>
+
+</android.support.v4.widget.DrawerLayout>
